@@ -39,7 +39,6 @@ export function TransactionsPage() {
     state.getTotalExpenses()
   );
   const balance = useTransactionStore((state) => state.getBalance());
-  const isLoading = useTransactionStore((state) => state.isLoading);
 
   const primaryCurrency = usePrimaryCurrencyStore(
     (state) => state.primaryCurrency
@@ -84,7 +83,7 @@ export function TransactionsPage() {
     if (filterType === "category") setCategoryFilter(value);
   };
 
-  if (isLoading || isCurrenciesLoading) {
+  if (isCurrenciesLoading) {
     return <TransactionsPageSkeleton />;
   }
 

@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export function useAnimatedNumber(targetValue: number, duration = 500) {
   const [displayValue, setDisplayValue] = useState(targetValue);
+  const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (displayValue === targetValue) return;
@@ -20,13 +21,19 @@ export function useAnimatedNumber(targetValue: number, duration = 500) {
       setDisplayValue(newValue);
 
       if (progress < 1) {
-        requestAnimationFrame(animate);
+        animationRef.current = requestAnimationFrame(animate);
       } else {
         setDisplayValue(targetValue);
       }
     };
 
-    requestAnimationFrame(animate);
+    animationRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, [targetValue, duration]);
 
   return displayValue;

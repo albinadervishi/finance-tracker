@@ -54,7 +54,7 @@ export function HeaderCards({
 
   return (
     <div className="grid md:grid-cols-3 gap-6 mb-8">
-      <Card className="shadow-md">
+      <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">
             {t("totalIncome")}
@@ -76,7 +76,7 @@ export function HeaderCards({
         </CardContent>
       </Card>
 
-      <Card className="shadow-md">
+      <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">
             {t("totalExpenses")}
@@ -98,7 +98,7 @@ export function HeaderCards({
         </CardContent>
       </Card>
 
-      <Card className="shadow-md bg-primary">
+      <Card className=" bg-primary">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle className="text-sm font-medium text-primary-foreground/80">
             {t("currentBalance")}

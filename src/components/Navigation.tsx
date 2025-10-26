@@ -7,15 +7,18 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui";
-import { Wallet, Globe, Moon, Sun } from "lucide-react";
+import { Globe, Moon, Sun } from "lucide-react";
 import { Text } from "./Text";
 import { useThemeStore } from "@/stores/useThemeStore";
 import { ThemeEnum } from "@/types";
 import { useTranslation } from "react-i18next";
+import EasyPay from "@/assets/easyPay.png";
 
 export function Navigation() {
   const { theme, toggleTheme } = useThemeStore();
   const { t, i18n } = useTranslation();
+  console.log(i18n.language);
+  console.log(localStorage.getItem("i18nextLng"));
 
   return (
     <nav className="border-b border-border bg-card">
@@ -23,12 +26,11 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-                <Wallet className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <Text size="lg" weight="bold" color="foreground">
-                FinanceTracker
-              </Text>
+              <img
+                src={EasyPay}
+                alt="EasyPay"
+                className="h-10 w-10 object-fill"
+              />
             </Link>
           </div>
 
@@ -37,7 +39,7 @@ export function Navigation() {
               value={i18n.language || "en"}
               onValueChange={(lng) => i18n.changeLanguage(lng)}
             >
-              <SelectTrigger className="w-32 h-9 gap-2 bg-transparent">
+              <SelectTrigger className="w-32 h-9  bg-transparent">
                 <Globe className="h-4 w-4" />
                 <SelectValue />
               </SelectTrigger>
@@ -50,7 +52,7 @@ export function Navigation() {
               variant="outline"
               size="icon"
               onClick={toggleTheme}
-              className="theme-toggle-btn h-9 w-9"
+              className="theme-toggle-btn h-11 w-11"
             >
               {theme === ThemeEnum.LIGHT ? (
                 <Moon className="h-5 w-5" />

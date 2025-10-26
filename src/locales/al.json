@@ -44,6 +44,7 @@
   "thisMonth": "Ky muaj",
   "myExpenses": "Shpenzimet e mia",
   "noExpensesThisMonth": "Nuk ka shpenzime në këtë muaj",
+  "noTransactions": "Nuk ka transaksione",
   "validation": {
     "descriptionRequired": "Përshkrimi është i detyrueshëm",
     "amountPositive": "Shuma duhet të jetë pozitive",

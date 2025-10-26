@@ -13,8 +13,8 @@ interface TransactionStore {
   getTotalIncome: () => number;
   getTotalExpenses: () => number;
   getBalance: () => number;
-  isLoading: boolean;
-  setIsLoading: (isLoading: boolean) => void;
+  isSubmitting: boolean;
+  setIsSubmitting: (isSubmitting: boolean) => void;
 }
 
 export const useTransactionStore = create<TransactionStore>()(
@@ -24,17 +24,18 @@ export const useTransactionStore = create<TransactionStore>()(
 
       addTransaction: (transaction) =>
         set((state) => {
-          get().setIsLoading(true);
+          get().setIsSubmitting(true);
           const newTransaction = {
             ...transaction,
             id: crypto.randomUUID(),
           };
           state.transactions.push(newTransaction);
-          get().setIsLoading(false);
+          get().setIsSubmitting(false);
         }),
 
       updateTransaction: (id, updates) =>
         set((state) => {
+          get().setIsSubmitting(true);
           const index = state.transactions.findIndex((t) => t.id === id);
           if (index !== -1) {
             state.transactions[index] = {
@@ -42,6 +43,7 @@ export const useTransactionStore = create<TransactionStore>()(
               ...updates,
             };
           }
+          get().setIsSubmitting(false);
         }),
 
       deleteTransaction: (id) =>
@@ -72,8 +74,8 @@ export const useTransactionStore = create<TransactionStore>()(
       getBalance: () => {
         return get().getTotalIncome() - get().getTotalExpenses();
       },
-      isLoading: false,
-      setIsLoading: (isLoading) => set({ isLoading }),
+      isSubmitting: false,
+      setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
     })),
     {
       name: "transactions-storage",

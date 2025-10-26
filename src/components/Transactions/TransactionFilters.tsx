@@ -58,7 +58,7 @@ export function TransactionFilters({
   };
 
   return (
-    <Card className="mb-6 shadow-md">
+    <Card className="mb-6 ">
       <CardContent className="pt-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           <div className="flex-1 relative">

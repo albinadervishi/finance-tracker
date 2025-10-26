@@ -75,6 +75,7 @@
 }
 
 @theme inline {
+  --font-sans: var(--font-sans);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -119,6 +120,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Poppins", sans-serif;
   }
 
   .theme-toggle-btn:hover {

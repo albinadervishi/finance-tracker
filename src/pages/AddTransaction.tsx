@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Text } from "@/components";
@@ -44,10 +44,13 @@ export function AddTransactionPage() {
 
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategory, setNewCategory] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { addTransaction, updateTransaction, getTransactionById } =
-    useTransactionStore();
+  const {
+    addTransaction,
+    updateTransaction,
+    getTransactionById,
+    isSubmitting,
+  } = useTransactionStore();
   const { data: currencies, isLoading, error } = useCurrencies();
   const { data: exchangeData, error: exchangeError } = useExchangeRates("EUR");
   const {
@@ -64,34 +67,18 @@ export function AddTransactionPage() {
   const form = useForm<TransactionFormData>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      description: "",
-      amount: 0,
-      currency: "",
-      type: "income",
-      categoryId: "",
-      notes: "",
+      description: existingTransaction?.description || "",
+      amount: existingTransaction?.amount || 0,
+      currency: existingTransaction?.currency || "",
+      type: existingTransaction?.type || "income",
+      categoryId: existingTransaction?.categoryId || "",
+      notes: existingTransaction?.notes || "",
     },
   });
-
-  useEffect(() => {
-    if (existingTransaction && currencies && currencies.length > 0) {
-      setTimeout(() => {
-        form.reset({
-          description: existingTransaction.description,
-          amount: existingTransaction.amount,
-          currency: existingTransaction.currency,
-          type: existingTransaction.type,
-          categoryId: existingTransaction.categoryId,
-          notes: existingTransaction.notes || "",
-        });
-      }, 10);
-    }
-  }, [existingTransaction, form]);
 
   const transactionType = form.watch("type");
 
   const onSubmit = (data: TransactionFormData) => {
-    setIsSubmitting(true);
     try {
       let finalCategoryId = data.categoryId;
 
@@ -104,12 +91,10 @@ export function AddTransactionPage() {
 
       if (!category) {
         toast.error(t("categoryNotFound"));
-        setIsSubmitting(false);
         return;
       }
       if (exchangeError && data.currency.toLowerCase() !== "eur") {
         toast.error(t("errorLoadingCurrencies"));
-        setIsSubmitting(false);
         return;
       }
 
@@ -142,8 +127,6 @@ export function AddTransactionPage() {
     } catch (error) {
       console.error(error);
       toast.error(t("somethingWentWrong"));
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
